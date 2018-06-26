@@ -28,38 +28,49 @@
 #include <SoftwareSerial.h>
 
 SoftwareSerial mySerial(10, 11); // RX, TX
-
+String stringDaSerial = "";
+bool stringDaSerialComplete = false;
+String stringDaSwSerial = "";
+bool stringDaSWSerialComplete = false;
 void setup()  
 {
   // Open serial communications and wait for port to open:
-  Serial.begin(57600);
-  while (!Serial) {
-    ; // wait for serial port to connect. Needed for Leonardo only
-  }
+  Serial.begin(9600);
+  
 
-
-  Serial.println("Goodnight moon!");
+  Serial.println("L P Q I Q");
 
   // set the data rate for the SoftwareSerial port
   mySerial.begin(9600);
-  mySerial.println("Hello, world?");
+  mySerial.println("L P Q I Q");
 }
 
 void loop() // run over and over
 {
+	if (stringDaSerialComplete){
+		mySerial.println(stringDaSerial);
+		stringDaSerialComplete = false;
+	}
+	if (stringDaSWSerialComplete){
+		Serial.println(stringDaSWSerial);
+		stringDaSWSerialComplete = false;
+	}
   char c;
   if (mySerial.available()){
     c = mySerial.read()
     if (c == '.')
       c= ',';
-    Serial.write(c);
+	if (c == '\n')
+		stringDaSWSerialComplete = true;
+	stringDaSwSerial.append(c);
   }
   if (Serial.available()){
     c = Serial.read()
     if (c == '.')
       c= ',';
-    mySerial.write(c);
-  
+  if (c == '\n')
+		stringDaSerialComplete = true;
+    stringDaSerial.append(c)
   }
 }
 
