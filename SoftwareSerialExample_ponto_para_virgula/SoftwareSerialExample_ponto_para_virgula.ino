@@ -57,7 +57,7 @@ void loop() // run over and over
 	}
   char c;
   if (mySerial.available()){
-    c = mySerial.read()
+    c = mySerial.read();
     if (c == '.')
       c= ',';
 	if (c == '\n')
@@ -65,7 +65,7 @@ void loop() // run over and over
 	stringDaSwSerial.append(c);
   }
   if (Serial.available()){
-    c = Serial.read()
+    c = Serial.read();
     if (c == '.')
       c= ',';
   if (c == '\n')
